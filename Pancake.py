@@ -61,8 +61,9 @@ def spatulaSortAI(aStack):
                 if not fringe:
                         return "Failed to sort"
 
-                #our strategy is to targest the highest level so
-                target = 0
+                #our strategy
+                target = 0 #Breadth Search
+                #target = len(fringe)-1 #Depth Search
 
                 #now to carry out expanding target if applicable
                 currentNode = fringe[target]
@@ -110,4 +111,4 @@ def flipNode(aNode, slot):
 ##print child2.unique()
 
 
-print(spatulaSortAI([5,1,2,3,6,9,33,4]))
+print(spatulaSortAI([2,1,3,5,6,7]))
