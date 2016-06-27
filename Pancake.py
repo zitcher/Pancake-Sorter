@@ -61,7 +61,7 @@ def spatulaSortAI(aStack):
                 if not fringe:
                         return "Failed to sort"
 
-                #our strategy is the leftmost so
+                #our strategy is to targest the highest level so
                 target = 0
 
                 #now to carry out expanding target if applicable
