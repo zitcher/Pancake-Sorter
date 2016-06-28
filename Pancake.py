@@ -3,6 +3,8 @@
 #You can insert a spatulat and "flip" everything above it (in earlier indecies)
 #array of sizes of pancakes stacked randomly
 
+from random import randint
+
 #node of tree, has a value, a parent node, and children node
 class Node(object):
         def __init__(self, value, parent):
@@ -26,16 +28,6 @@ class Node(object):
                         return self.getParent().showPath(branch)
                 except AttributeError as error:
                         return branch
-
-        #returns true if no ancestors hold the same value
-        def unique(self, value = "Replaceme"):
-                if(value == "Replaceme"):
-                        value = self.getValue()
-                if(self.getParent() == None):
-                        return True
-                if(self.getParent().getValue() ==  value):
-                        return False
-                return self.getParent().unique(value)
         
         def getValue(self):
                 return self.value
@@ -48,26 +40,33 @@ class Node(object):
 
 #main control function to find flip steps
 def spatulaSortAI(aStack):
-        goal = aStack[:] #make goal into a copy of stack
+        goal = list(aStack) #make goal into a list so it can be sorted
         goal.sort() #we want it sorted bc that's our goal
-
+        goal = tuple(goal) #must be a tuple
+        
         startNode = Node(aStack, None)#the top of our tree
         
         #What we can try to do
         fringe = [startNode]
 
-        #depth left most search
+        #what has been tried
+        closedSet =  set()
+        
+        #Our Search
         while(True):
+                #If fringe is empty our search has failed
                 if not fringe:
                         return "Failed to sort"
 
                 #our strategy
                 target = 0 #Breadth Search
                 #target = len(fringe)-1 #Depth Search
+                #target = randint(0, len(fringe)-1) #dumb search
 
                 #now to carry out expanding target if applicable
                 currentNode = fringe[target]
-                if(currentNode.unique()):
+                if(currentNode.getValue() not in closedSet):
+                        closedSet.add(currentNode.getValue())
                         #check if we have reached goal before expanding
                         if(currentNode.getValue() == goal):
                                 return currentNode.showPath()
@@ -79,11 +78,10 @@ def spatulaSortAI(aStack):
                 #delete fringe that was expanded
                 del fringe[target]   
                 
-
         
 #returns a flipped list
 def flip(aList, slot):
-        toFlip = aList[:] #this is what we have to flip
+        toFlip = list(aList[:]) #this is what we have to flip
 
         try:
                 #this flips
@@ -100,8 +98,8 @@ def flip(aList, slot):
 
 #returns a flipped node, linked to parent node
 def flipNode(aNode, slot):
-        flippedList = flip(aNode.getValue()[:], slot)
-        return Node(flippedList, aNode)
+        flippedTuple = tuple(flip(aNode.getValue()[:], slot)) #Must convert list to tuple bc sets only take immutable types
+        return Node(flippedTuple, aNode)
 
 ##test = Node([1,5], None)
 ##child1 = flipNode(test,1)
@@ -111,4 +109,4 @@ def flipNode(aNode, slot):
 ##print child2.unique()
 
 
-print(spatulaSortAI([2,1,3,5,6,7]))
+print(spatulaSortAI((2,1,3,5,7,6)))
