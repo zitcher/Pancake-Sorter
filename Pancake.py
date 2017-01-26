@@ -1,7 +1,8 @@
-#Pancake AI flipper
-#AI should stack from smallest to largest
+#Pancake flipper
+#Should stack from smallest to largest
 #You can insert a spatulat and "flip" everything above it (in earlier indecies)
 #array of sizes of pancakes stacked randomly
+#Pancakes are represented as numbers in a list
 
 from random import randint
 
@@ -39,7 +40,7 @@ class Node(object):
                 return self.children
 
 #main control function to find flip steps
-def spatulaSortAI(aStack):
+def spatulaSort(aStack):
         goal = list(aStack) #make goal into a list so it can be sorted
         goal.sort() #we want it sorted bc that's our goal
         goal = tuple(goal) #must be a tuple
@@ -109,4 +110,4 @@ def flipNode(aNode, slot):
 ##print child2.unique()
 
 
-print(spatulaSortAI((2,1,3,5,7,6)))
+print(spatulaSort((2,1,3,5,7,6)))
